@@ -3,22 +3,25 @@ require "ruby-nfc"
 require "thread"
 require_relative "puzzle1.rb"
 
+
 	@red=Gdk::RGBA::new(1.0,0,1.0)
 	@blue=Gdk::RGBA::new(0,0,1.0,1.0)
 	@white=Gdk::RGBA::new(1.0,1.0,1.0,1.0)
 	
 	@uid=""
 	@rf=Rfid.new
-	
+
 	@window=Gtk::Window.new("Lector tarjeta Rfid")
 	@window.set_size_request(300,100)
 	@window.set_border_width(7)
 	@window.set_window_position(:center)
 	
+	
 	@window.signal_connect("delete-event"){
 		|_widget| Gtk.main_quit}
 	
 	@grid=Gtk::Grid.new
+	
 	
 	@label=Gtk::Label.new("Porfavor, acerque tarjeta para lectura")
 	@label.override_background_color(:normal, @blue)
@@ -28,7 +31,7 @@ require_relative "puzzle1.rb"
 	
 	@clear_button=Gtk::Button.new(:label=>"Clear")
 	
-	@grid.attach(@clear_button, 0, 1, 2, 1)
+	@grid.attach(@clear_button, 0, 1, 2, 1)  
 	
 	@grid.set_row_homogeneous(true)
 	@grid.set_column_homogeneous(true)
@@ -45,6 +48,7 @@ require_relative "puzzle1.rb"
 		
 	end
 	
+	
 	def thraux
 		t=Thread.new{
 			read
@@ -55,12 +59,14 @@ require_relative "puzzle1.rb"
 	
 	thraux
 	
+	
 	def read
 		puts "reading"
 		
 		@uid=@rf.read_uid
 		GLib::Idle.add{show_uid}
 	end
+	
 	
 	def show_uid
 	
